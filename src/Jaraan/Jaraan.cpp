@@ -32,11 +32,13 @@
 			for (int i = 0; i < widgets.size(); i++) {
 
 				window.draw(widgets[i]);
-				
+				widgets[i].setFillColor(sf::Color(100, 30, 36));
 				if (widgets[i].getGlobalBounds().contains(pos.x, pos.y)) {
 					isSelecting = true;
+					widgets[i].setFillColor(sf::Color(43, 13, 15));
 					cursor.loadFromSystem(sf::Cursor::Hand);
 					window.setMouseCursor(cursor);
+
 				}
 
 			}
