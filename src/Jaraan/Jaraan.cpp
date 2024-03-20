@@ -55,10 +55,6 @@
 	Button::Button(int posx, int posy , std::string label, int fontSize) {
 		sf::RectangleShape button(sf::Vector2f(123,50));
 		button.setFillColor(sf::Color (44,66,99));
-		
-		button.setPosition(posx, posy);
-		
-		this->button = button;
 
 		// set the string to display
 		this->label.setString(label);
@@ -68,12 +64,20 @@
 
 		// set the color
 		this->label.setFillColor(sf::Color(236, 219, 186));
-		this->label.setPosition(button.getPosition().x + 32, button.getPosition().y);
-		labels.push_back(this->label);
+		
 
 		int xSize = label.size() * this->label.getCharacterSize();
-		button.setSize(sf::Vector2f(xSize - xSize/label.size(), this->label.getCharacterSize() * 2));
+		button.setSize(sf::Vector2f(xSize, this->label.getCharacterSize() * 2));
+		
+		int temp = 0;
+
+		button.setPosition(posx * 32 , button.getSize().y + 32 * posy);
+		
+		
 		widgets.push_back(button);
+		this->button = button;
+		this->label.setPosition(button.getPosition().x + button.getSize().x/4, button.getPosition().y + button.getSize().y / 4);
+		labels.push_back(this->label);
 		
 		
 	}
