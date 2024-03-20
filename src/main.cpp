@@ -6,10 +6,7 @@ int main()
 {
     
     Window window(800 , 600 , "Jaraan");
-
-    Button btn(400, 300, "hola un btoon" , 12);
-
-
+    Button btn(400, 300, "Soy un botón" , 12);
     window.Update();
 
     

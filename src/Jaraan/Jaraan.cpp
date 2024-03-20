@@ -2,7 +2,7 @@
 
 	Window::Window(unsigned int width, unsigned int height, std::string windowTitle) {
 		sf::Image icon;
-		icon.loadFromFile("owl.jpg");
+		icon.loadFromFile("../../../../owl.jpg");
 		this->window.create(sf::VideoMode(width, height), windowTitle);
 		this->window.setIcon(icon.getSize().x , icon.getSize().y , icon.getPixelsPtr());
 		window.setFramerateLimit(144);
