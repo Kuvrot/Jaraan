@@ -5,11 +5,12 @@
 		icon.loadFromFile("../../../../owl.jpg");
 		this->window.create(sf::VideoMode(width, height), windowTitle);
 		this->window.setIcon(icon.getSize().x , icon.getSize().y , icon.getPixelsPtr());
-		window.setFramerateLimit(144);
+		window.setFramerateLimit(60);
 	}
 
 	void Window::Update() {
-
+		
+		
 		while (window.isOpen())
 		{
 			for (auto event = sf::Event{}; window.pollEvent(event);)
@@ -18,8 +19,18 @@
 				{
 					window.close();
 				}
+
+				if (event.type == sf::Event::MouseButtonPressed) {
+					
+					if (event.key.code == sf::Mouse::Left) {
+
+						if (isSelecting) {
+							mousePressed = true;
+						}
+
+					}
+				}
 			}
-			
 			
 			sf::Vector2i pos = sf::Mouse::getPosition(window);
 
@@ -39,14 +50,25 @@
 					cursor.loadFromSystem(sf::Cursor::Hand);
 					window.setMouseCursor(cursor);
 
+					if (mousePressed) {
+						 currentSelection = widgets[i];
+						 //Clicking 
+						 for (int i = 0; i < buttons.size(); i++) {
+
+							 //If the positions match, then it's the same object
+							 if (buttons[i].button.getPosition() == currentSelection.getPosition()) {
+								 buttons[i].click();
+								 break;
+							 }
+
+						 }
+						
+						 mousePressed = false;
+					}
 				}
-
 			}
-
 			
-
 			for (int i = 0; i < labels.size(); i++) {
-
 
 				sf::Font font;
 
@@ -58,7 +80,6 @@
 				labels[i].setFont(font);
 
 				window.draw(labels[i]);
-
 			}
 
 			window.display();
@@ -66,7 +87,8 @@
 
 	}
 
-	Button::Button(int posx, int posy , std::string label, int fontSize) {
+	Button::Button(int posx, int posy , std::string label, int fontSize , void(*func)()) {
+		this->func = func;
 		sf::RectangleShape button(sf::Vector2f(123,50));
 		button.setFillColor(sf::Color (100,30,36));
 
@@ -79,38 +101,38 @@
 		// set the color
 		this->label.setFillColor(sf::Color(233, 220, 188));
 		
-
 		int xSize = label.size() * this->label.getCharacterSize();
 		button.setSize(sf::Vector2f(xSize, this->label.getCharacterSize() * 2));
 		button.setPosition(posx * 32 , button.getSize().y + 32 * posy);
-		
 
 		widgets.push_back(button);
 		this->button = button;
 		this->label.setPosition(button.getPosition().x + button.getSize().x/4, button.getPosition().y + button.getSize().y / 4);
 		labels.push_back(this->label);
+		buttons.push_back(*this);
 		
 	}
 
-	bool Button::isSelected() {
 
-		bool selected = false;
+	void Button::click() {
 
-		if (sf::Mouse::getPosition().x > this->button.getPosition().x && sf::Mouse::getPosition().x < this->button.getPosition().x + this->button.getSize().x) {
-			selected = true;
-			
+		if (func == nullptr) {
+			std::cout << "Error: onClick function not set\n";
+			return;
 		}
 
-		return selected;
+		func();
+
+		std::cout << "hola";
+
 
 	}
 
-	void Button::onClick(void method()) {
-
-		if (isSelected()){
-			
-		}
-
-		method();
-
+	void Button::onClick(void(*func)())
+	{
+		this->func = func;
 	}
+
+	
+
+

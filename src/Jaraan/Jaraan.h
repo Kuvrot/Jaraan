@@ -13,7 +13,10 @@
 static std::vector<sf::RectangleShape> widgets;
 static std::vector<sf::Text> labels;
 static bool isSelecting;
-static bool rightClick;
+static bool mousePressed;
+static sf::RectangleShape currentSelection;
+
+
 class Window {
 
 public:
@@ -24,23 +27,19 @@ public:
 	
 };
 
-class Button {
+class Button{
 	
 	public: 
 		sf::RectangleShape button;
 		sf::Text label;
-		bool selected;
-		Button(int posx, int posy, std::string label , int fontSize );
-		bool isSelected();
-		void onClick(void method());
+		void(*func)() = nullptr;
+		Button(int posx, int posy, std::string label, int fontSize , void(*func)());
+		
+		void onClick(void(*func)());
+		void click();
 		
 };
 
-
-class InputSystem {
-
-
-
-};
+static std::vector<Button> buttons;
 
 #endif // !
