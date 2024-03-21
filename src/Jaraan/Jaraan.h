@@ -34,12 +34,14 @@ class Button{
 		sf::Text label;
 		void(*func)() = nullptr;
 		Button(int posx, int posy, std::string label, int fontSize , void(*func)());
-		
+		//~Button();
 		void onClick(void(*func)());
 		void click();
-		
+		void destroy();
 };
 
 static std::vector<Button> buttons;
+
+
 
 #endif // !

@@ -10,7 +10,6 @@
 
 	void Window::Update() {
 		
-		
 		while (window.isOpen())
 		{
 			for (auto event = sf::Event{}; window.pollEvent(event);)
@@ -27,12 +26,11 @@
 						if (isSelecting) {
 							mousePressed = true;
 						}
-
 					}
 				}
 			}
 			
-			sf::Vector2i pos = sf::Mouse::getPosition(window);
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
 			window.clear(sf::Color(25, 25, 25));
 			isSelecting = false;
@@ -44,7 +42,7 @@
 
 				window.draw(widgets[i]);
 				widgets[i].setFillColor(sf::Color(100, 30, 36));
-				if (widgets[i].getGlobalBounds().contains(pos.x, pos.y)) {
+				if (widgets[i].getGlobalBounds().contains(mousePos.x, mousePos.y)) {
 					isSelecting = true;
 					widgets[i].setFillColor(sf::Color(43, 13, 15));
 					cursor.loadFromSystem(sf::Cursor::Hand);
@@ -62,7 +60,6 @@
 							 }
 
 						 }
-						
 						 mousePressed = false;
 					}
 				}
@@ -113,7 +110,6 @@
 		
 	}
 
-
 	void Button::click() {
 
 		if (func == nullptr) {
@@ -128,6 +124,13 @@
 	void Button::onClick(void(*func)())
 	{
 		this->func = func;
+	}
+
+	void Button::destroy () {
+
+
+		delete this;
+
 	}
 
 	
