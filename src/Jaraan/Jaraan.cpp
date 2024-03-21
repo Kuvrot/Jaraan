@@ -84,7 +84,7 @@
 
 	}
 
-	Button::Button(int posx, int posy , std::string label, int fontSize , void(*callMethod)()) {
+	Button::Button(int posx, int posy , std::string label, int fontSize , std::function<void()> callMethod) {
 		this->func = callMethod;
 		sf::RectangleShape button(sf::Vector2f(123,50));
 		button.setFillColor(sf::Color (100,30,36));
@@ -121,15 +121,48 @@
 
 	}
 
-	void Button::onClick(void(*func)())
-	{
-		this->func = func;
-	}
-
 	void Button::destroy () {
 
 
-		delete this;
+		for (int i = 0; i < widgets.size(); i++) {
+
+			if (widgets[i].getPosition() == this->button.getPosition()) {
+				widgets.erase(widgets.begin() + i);
+				std::cout << i;
+				break;
+			}
+
+		}
+
+	}
+
+
+
+	Label::Label(int posx, int posy, std::string label, unsigned int fontSize) {
+
+		// set the string to display
+		this->label.setString(label);
+
+		// set the character size
+		this->label.setCharacterSize(fontSize); // in pixels, not points!
+
+		// set the color
+		this->label.setFillColor(sf::Color(233, 220, 188));
+		this->label.setPosition(posx * 32, 32 * posy);
+		labels.push_back(this->label);
+
+	}
+
+	void Label::setText(std::string label) {
+
+		for (int i = 0; i < widgets.size(); i++) {
+
+			if (labels[i].getPosition() == this->label.getPosition()) {
+				labels[i].setString("xdxdxd");
+				break;
+			}
+
+		}
 
 	}
 

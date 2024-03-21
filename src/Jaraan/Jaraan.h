@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <filesystem>
 #include <iostream>
+#include <functional>
 
 
 static std::vector<sf::RectangleShape> widgets;
@@ -32,16 +33,23 @@ class Button{
 	public: 
 		sf::RectangleShape button;
 		sf::Text label;
-		void(*func)() = nullptr;
-		Button(int posx, int posy, std::string label, int fontSize , void(*func)());
-		//~Button();
-		void onClick(void(*func)());
+		std::function<void()> func = nullptr;
+		Button(int posx, int posy, std::string label, int fontSize , std::function<void()> callMethod);
 		void click();
 		void destroy();
 };
 
 static std::vector<Button> buttons;
 
+
+class Label {
+public:
+	sf::Text label;
+	Label(int posx, int posy, std::string label , unsigned int fontSize);
+	void setText(std::string label);
+
+
+};
 
 
 #endif // !
