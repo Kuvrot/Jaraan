@@ -87,8 +87,8 @@
 
 	}
 
-	Button::Button(int posx, int posy , std::string label, int fontSize , void(*func)()) {
-		this->func = func;
+	Button::Button(int posx, int posy , std::string label, int fontSize , void(*callMethod)()) {
+		this->func = callMethod;
 		sf::RectangleShape button(sf::Vector2f(123,50));
 		button.setFillColor(sf::Color (100,30,36));
 
@@ -122,9 +122,6 @@
 		}
 
 		func();
-
-		std::cout << "hola";
-
 
 	}
 
