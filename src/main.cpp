@@ -3,26 +3,30 @@
 #define WIDTH 600u
 
 
-void Mem(Label l1) {
+void select(int n , Label lb) {
 
-    l1.setText("This is a string");
-}
+    switch (n) {
 
-void Mom() {
+    case 1: lb.setText("¡Hola amigo!"); break;
+    case 2: lb.setText("Hello friend!"); break;
+    case 3: lb.setText("Hallo freund!"); break;
+    case 4: lb.setText("Salve amici!"); break;
 
-    Button btn3(8, 6, "Soy un botón", 12, nullptr);     
+    }
     
 }
 
 int main()
 {   
-    Window window(800, 600, "Jaraan");
-    Button btn(1, 1, "Soy un botón", 12, Mom);
-    Button btn3(8, 1, "Soy un botón", 12, nullptr);
-    Label l1(10, 8, "Esto es un texto", 24);
-    Button btn2(6, 1, "boton", 12, [l1]() {Mem(l1); });
+    Window window(HEIGHT, WIDTH, "Jaraan");
+    Label label(10, 2, "Select a language", 24);
+    Button btn1(1, 1, "Spanish", 12, [label]() {select(1 , label); });
+    Button btn2(1, 2, "English", 12, [label]() {select(2, label); });
+    Button btn3(1, 3, "Deutsch", 12, [label]() {select(3 , label); });
+    Button btn4(1, 4, "Latin", 12, [label]() {select(4 , label); });
 
     
+
     window.Update();
 
 

@@ -158,7 +158,7 @@
 		for (int i = 0; i < widgets.size(); i++) {
 
 			if (labels[i].getPosition() == this->label.getPosition()) {
-				labels[i].setString("xdxdxd");
+				labels[i].setString(label);
 				break;
 			}
 
