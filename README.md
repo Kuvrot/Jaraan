@@ -2,7 +2,7 @@
 
 # Jaraan
 #### GUI framework for C++.
-Make simple GUI for C++ applications with the least amount of code.
+Make simple C++ applications with GUI with the least amount of code.
 
 ## Demo
 
@@ -54,4 +54,3 @@ int main()
   * [ ] check box
   * [ ] slider
   * [ ] add icons to buttons
-  * [ ] 
