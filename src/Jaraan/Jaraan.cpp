@@ -94,7 +94,6 @@
 			sf::Cursor cursor;
 			cursor.loadFromSystem(sf::Cursor::Hand);
 			window.setMouseCursor(cursor);
-
 		}
 
 	}
@@ -134,7 +133,6 @@
 		}
 
 		func();
-
 	}
 
 	void Button::setColor(int r, int g, int b) {
@@ -145,7 +143,6 @@
 	void Button::setColorHover(int r, int g, int b) {
 
 		hoverColor = sf::Color(r, g, b);
-
 	}
 
 
@@ -158,9 +155,7 @@
 				std::cout << i;
 				break;
 			}
-
 		}
-
 	}
 
 
@@ -177,7 +172,6 @@
 		this->label.setFillColor(sf::Color(233, 220, 188));
 		this->label.setPosition(posx * 32, 32 * posy);
 		labels.push_back(this->label);
-
 	}
 
 	void Label::setText(std::string label) {
@@ -188,9 +182,7 @@
 				labels[i].setString(label);
 				break;
 			}
-
 		}
-
 	}
 
 	
