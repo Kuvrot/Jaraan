@@ -122,7 +122,6 @@
 		this->label.setPosition(button.getPosition().x + button.getSize().x/4, button.getPosition().y + button.getSize().y / 4);
 		labels.push_back(this->label);
 		buttons.push_back(*this);
-		
 	}
 
 	void Button::click() {
