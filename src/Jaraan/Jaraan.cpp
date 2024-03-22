@@ -6,6 +6,7 @@
 		this->window.create(sf::VideoMode(width, height), windowTitle);
 		this->window.setIcon(icon.getSize().x , icon.getSize().y , icon.getPixelsPtr());
 		window.setFramerateLimit(60);
+		setCursor("arrow");
 	}
 
 	void Window::Update() {
@@ -34,19 +35,16 @@
 
 			window.clear(sf::Color(25, 25, 25));
 			isSelecting = false;
-			sf::Cursor cursor;
-			cursor.loadFromSystem(sf::Cursor::Arrow);
-			window.setMouseCursor(cursor);
+			setCursor("arrow");
 			//Draw widgets
 			for (int i = 0; i < widgets.size(); i++) {
 
 				window.draw(widgets[i]);
-				widgets[i].setFillColor(sf::Color(100, 30, 36));
+				widgets[i].setFillColor(idleColor);
 				if (widgets[i].getGlobalBounds().contains(mousePos.x, mousePos.y)) {
 					isSelecting = true;
-					widgets[i].setFillColor(sf::Color(43, 13, 15));
-					cursor.loadFromSystem(sf::Cursor::Hand);
-					window.setMouseCursor(cursor);
+					widgets[i].setFillColor(hoverColor);
+					setCursor("hand");
 
 					if (mousePressed) {
 						 currentSelection = widgets[i];
@@ -84,6 +82,23 @@
 
 	}
 
+	void Window::setCursor(std::string cursor) {
+
+		if (cursor == "arrow") {
+			sf::Cursor cursor;
+			cursor.loadFromSystem(sf::Cursor::Arrow);
+			window.setMouseCursor(cursor);
+		}
+		else if (cursor == "hand") {
+
+			sf::Cursor cursor;
+			cursor.loadFromSystem(sf::Cursor::Hand);
+			window.setMouseCursor(cursor);
+
+		}
+
+	}
+
 	Button::Button(int posx, int posy , std::string label, int fontSize , std::function<void()> callMethod) {
 		this->func = callMethod;
 		sf::RectangleShape button(sf::Vector2f(123,50));
@@ -102,8 +117,9 @@
 		button.setSize(sf::Vector2f(xSize, this->label.getCharacterSize() * 2));
 		button.setPosition(posx * 32 , button.getSize().y + 32 * posy);
 
-		widgets.push_back(button);
+	
 		this->button = button;
+		widgets.push_back(this->button);
 		this->label.setPosition(button.getPosition().x + button.getSize().x/4, button.getPosition().y + button.getSize().y / 4);
 		labels.push_back(this->label);
 		buttons.push_back(*this);
@@ -121,8 +137,19 @@
 
 	}
 
-	void Button::destroy () {
+	void Button::setColor(int r, int g, int b) {
 
+		idleColor = sf::Color(r, g, b);
+
+	}
+	void Button::setColorHover(int r, int g, int b) {
+
+		hoverColor = sf::Color(r, g, b);
+
+	}
+
+
+	void Button::destroy () {
 
 		for (int i = 0; i < widgets.size(); i++) {
 

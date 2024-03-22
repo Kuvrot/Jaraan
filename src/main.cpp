@@ -1,7 +1,4 @@
 #include "Jaraan/Jaraan.h"
-#define HEIGHT 800u
-#define WIDTH 600u
-
 
 void select(int n , Label lb) {
 
@@ -18,7 +15,7 @@ void select(int n , Label lb) {
 
 int main()
 {   
-    Window window(HEIGHT, WIDTH, "Jaraan");
+    Window window(800, 600, "Jaraan");
     Label label(10, 2, "Select a language", 24);
     Button btn1(1, 1, "Spanish", 12, [label]() {select(1 , label); });
     Button btn2(1, 2, "English", 12, [label]() {select(2, label); });
