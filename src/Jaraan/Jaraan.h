@@ -10,24 +10,22 @@
 #include <iostream>
 #include <functional>
 
-
-static std::vector<sf::RectangleShape> widgets;
 static std::vector<sf::Text> labels;
 static bool isSelecting;
 static bool mousePressed;
 static sf::RectangleShape currentSelection;
-static sf::Color idleColor = sf::Color(100, 30, 36);
-static sf::Color hoverColor = sf::Color(43, 13, 15);
+
 
 class Window {
 
 public:
 	sf::RenderWindow window;
+	sf::Color backgroundColor = sf::Color(25, 25, 25);
 	Window(unsigned int width, unsigned int height, std::string windowTitle);
 	void Update();
 	void setCursor(std::string cursor);
+	void setBackgroundColor(int r, int g, int b);
 
-	
 };
 
 class Button{
@@ -36,11 +34,16 @@ class Button{
 		sf::RectangleShape button;
 		sf::Text label;
 		std::function<void()> func = nullptr;
+		sf::Color idleColor = sf::Color(100, 30, 36);
+		sf::Color hoverColor = sf::Color(43, 13, 15);
+		sf::Color labelColor = sf::Color(100, 30, 36);
 		Button(int posx, int posy, std::string label, int fontSize , std::function<void()> callMethod);
+		void setButtonColor(int r , int g, int b);
+		void setButtonColorHover(int r , int g, int b);
+		void setLabelColor(int r , int g, int b);
 		void click();
-		void setColor(int r , int g, int b);
-		void setColorHover(int r , int g, int b);
 		void destroy();
+	
 };
 
 static std::vector<Button> buttons;

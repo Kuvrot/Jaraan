@@ -33,32 +33,33 @@
 			
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-			window.clear(sf::Color(25, 25, 25));
+			window.clear(backgroundColor);
 			isSelecting = false;
 			setCursor("arrow");
-			//Draw widgets
-			for (int i = 0; i < widgets.size(); i++) {
 
-				window.draw(widgets[i]);
-				widgets[i].setFillColor(idleColor);
-				if (widgets[i].getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+			//Draw widgets
+			for (int i = 0; i < buttons.size(); i++) {
+			
+				window.draw(buttons[i].button);
+				buttons[i].label.setColor(buttons[i].labelColor);
+				buttons[i].button.setFillColor(buttons[i].idleColor);
+				if (buttons[i].button.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
 					isSelecting = true;
-					widgets[i].setFillColor(hoverColor);
+					buttons[i].button.setFillColor(buttons[i].hoverColor);
 					setCursor("hand");
 
 					if (mousePressed) {
-						 currentSelection = widgets[i];
-						 //Clicking 
-						 for (int i = 0; i < buttons.size(); i++) {
+						currentSelection = buttons[i].button;
+						//Clicking 
+						for (int i = 0; i < buttons.size(); i++) {
 
-							 //If the positions match, then it's the same object
-							 if (buttons[i].button.getPosition() == currentSelection.getPosition()) {
-								 buttons[i].click();
-								 break;
-							 }
-
-						 }
-						 mousePressed = false;
+							//If the positions match, then it's the same object
+							if (buttons[i].button.getPosition() == currentSelection.getPosition()) {
+								buttons[i].click();
+								break;
+							}
+						}
+						mousePressed = false;
 					}
 				}
 			}
@@ -95,22 +96,26 @@
 			cursor.loadFromSystem(sf::Cursor::Hand);
 			window.setMouseCursor(cursor);
 		}
+	}
 
+
+
+	void Window::setBackgroundColor(int r, int g, int b) {
+
+		this->backgroundColor = sf::Color(r, g, b);
 	}
 
 	Button::Button(int posx, int posy , std::string label, int fontSize , std::function<void()> callMethod) {
+
 		this->func = callMethod;
+		
 		sf::RectangleShape button(sf::Vector2f(123,50));
-		button.setFillColor(sf::Color (100,30,36));
 
 		// set the string to display
 		this->label.setString(label);
 
 		// set the character size
 		this->label.setCharacterSize(fontSize); // in pixels, not points!
-
-		// set the color
-		this->label.setFillColor(sf::Color(233, 220, 188));
 		
 		int xSize = label.size() * this->label.getCharacterSize();
 		button.setSize(sf::Vector2f(xSize, this->label.getCharacterSize() * 2));
@@ -118,8 +123,7 @@
 
 	
 		this->button = button;
-		widgets.push_back(this->button);
-		this->label.setPosition(button.getPosition().x + button.getSize().x/4, button.getPosition().y + button.getSize().y / 4);
+		this->label.setPosition(button.getPosition().x + button.getSize().x / 4, button.getPosition().y + button.getSize().y / 4);
 		labels.push_back(this->label);
 		buttons.push_back(*this);
 	}
@@ -134,23 +138,34 @@
 		func();
 	}
 
-	void Button::setColor(int r, int g, int b) {
+	void Button::setButtonColor(int r, int g, int b) {
 
-		idleColor = sf::Color(r, g, b);
+		this->idleColor = sf::Color(r, g, b);
+
 
 	}
-	void Button::setColorHover(int r, int g, int b) {
 
-		hoverColor = sf::Color(r, g, b);
+	void Button::setButtonColorHover(int r, int g, int b) {
+
+		this->hoverColor = sf::Color(r, g, b);
+
+
+	}
+
+	void Button::setLabelColor(int r, int g, int b) {
+
+		this->label.setColor(sf::Color(r, g, b));
+
+
 	}
 
 
 	void Button::destroy () {
 
-		for (int i = 0; i < widgets.size(); i++) {
+		for (int i = 0; i < buttons.size(); i++) {
 
-			if (widgets[i].getPosition() == this->button.getPosition()) {
-				widgets.erase(widgets.begin() + i);
+			if (buttons[i].button.getPosition() == this->button.getPosition()) {
+				buttons.erase(buttons.begin() + i);
 				std::cout << i;
 				break;
 			}
@@ -175,7 +190,7 @@
 
 	void Label::setText(std::string label) {
 
-		for (int i = 0; i < widgets.size(); i++) {
+		for (int i = 0; i < labels.size(); i++) {
 
 			if (labels[i].getPosition() == this->label.getPosition()) {
 				labels[i].setString(label);
