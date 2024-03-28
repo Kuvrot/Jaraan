@@ -13,8 +13,12 @@
 		
 		while (window.isOpen())
 		{
-			for (auto event = sf::Event{}; window.pollEvent(event);)
+			auto event = sf::Event{};
+
+			for (event; window.pollEvent(event);)
 			{
+				input += event.text.unicode;
+
 				if (event.type == sf::Event::Closed)
 				{
 					window.close();
@@ -28,14 +32,20 @@
 							mousePressed = true;
 						}
 					}
+
+					
 				}
 			}
 			
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
 			window.clear(backgroundColor);
+
+			if (!isSelecting) {
+				setCursor("arrow");
+			}
+
 			isSelecting = false;
-			setCursor("arrow");
 
 			//Draw widgets
 			for (int i = 0; i < buttons.size(); i++) {
@@ -50,15 +60,14 @@
 
 					if (mousePressed) {
 						currentSelection = buttons[i].button;
-						//Clicking 
-						for (int i = 0; i < buttons.size(); i++) {
 
-							//If the positions match, then it's the same object
-							if (buttons[i].button.getPosition() == currentSelection.getPosition()) {
-								buttons[i].click();
-								break;
-							}
+						//Clicking 
+						//If the positions match, then it's the same object
+						if (buttons[i].button.getPosition() == currentSelection.getPosition()) {
+							buttons[i].click();
+							break;
 						}
+						
 						mousePressed = false;
 					}
 				}
@@ -78,6 +87,34 @@
 				window.draw(labels[i]);
 			}
 
+
+			for (int i = 0; i < inputFields.size(); i++) {
+
+				window.draw(inputFields[i].field);
+				window.draw(inputFields[i].label);
+				inputFields[i].label.setColor(inputFields[i].labelColor);
+				inputFields[i].field.setFillColor(inputFields[i].idleColor);
+				if (inputFields[i].field.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+					isSelecting = true;
+					//inputFields[i].field.setFillColor(inputFields[i].hoverColor);
+					setCursor("text");
+
+					if (mousePressed) {
+						currentSelection = inputFields[i].field;
+
+						//Clicking 
+						//If the positions match, then it's the same object
+						if (inputFields[i].field.getPosition() == currentSelection.getPosition()) {
+
+							inputFields[i].label.setString(input);
+
+						}
+						mousePressed = false;
+					}
+				}
+			}
+
+
 			window.display();
 		}
 
@@ -85,20 +122,21 @@
 
 	void Window::setCursor(std::string cursor) {
 
+		sf::Cursor _cursor;
+
 		if (cursor == "arrow") {
-			sf::Cursor cursor;
-			cursor.loadFromSystem(sf::Cursor::Arrow);
-			window.setMouseCursor(cursor);
+			_cursor.loadFromSystem(sf::Cursor::Arrow);
+			window.setMouseCursor(_cursor);
 		}
 		else if (cursor == "hand") {
-
-			sf::Cursor cursor;
-			cursor.loadFromSystem(sf::Cursor::Hand);
-			window.setMouseCursor(cursor);
+			_cursor.loadFromSystem(sf::Cursor::Hand);
+			window.setMouseCursor(_cursor);
+		}
+		else if (cursor == "text") {
+			_cursor.loadFromSystem(sf::Cursor::Text);
+			window.setMouseCursor(_cursor);
 		}
 	}
-
-
 
 	void Window::setBackgroundColor(int r, int g, int b) {
 
@@ -197,6 +235,27 @@
 				break;
 			}
 		}
+	}
+
+
+
+	InputField::InputField(int posx, int posy, int width, int fontSize, std::function<void()> callMethod) {
+
+		this->func = callMethod;
+
+		sf::RectangleShape field(sf::Vector2f(123, 50));
+		this->label.setString("HOALASD");
+		// set the character size
+		this->label.setCharacterSize(fontSize); // in pixels, not points!
+
+		int xSize = fontSize * width;
+		field.setSize(sf::Vector2f(xSize, fontSize * 2));
+		field.setPosition(posx * 32, field.getSize().y + 32 * posy);
+		this->label.setFillColor(sf::Color(233, 220, 188));
+		this->label.setPosition(field.getPosition().x + field.getSize().x / 4, field.getPosition().y + field.getSize().y / 4);
+		this->field = field;
+		labels.push_back(this->label);
+		inputFields.push_back(*this);
 	}
 
 	

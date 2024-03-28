@@ -14,7 +14,7 @@ static std::vector<sf::Text> labels;
 static bool isSelecting;
 static bool mousePressed;
 static sf::RectangleShape currentSelection;
-
+static std::string input;
 
 class Window {
 
@@ -43,19 +43,31 @@ class Button{
 		void setLabelColor(int r , int g, int b);
 		void click();
 		void destroy();
-	
 };
 
 static std::vector<Button> buttons;
 
+class InputField {
+
+public:
+	sf::RectangleShape field;
+	sf::Text label;
+	std::function<void()> func = nullptr;
+	sf::Color idleColor = sf::Color(100, 30, 36);
+	sf::Color labelColor = sf::Color(100, 30, 36);
+	InputField(int posx, int posy, int width, int fontSize, std::function<void()> callMethod);
+	void setLabelColor(int r, int g, int b);
+	void getText();
+	void destroy();
+};
+
+static std::vector<InputField> inputFields;
 
 class Label {
 public:
 	sf::Text label;
 	Label(int posx, int posy, std::string label , unsigned int fontSize);
 	void setText(std::string label);
-
-
 };
 
 
