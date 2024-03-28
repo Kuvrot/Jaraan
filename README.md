@@ -42,9 +42,14 @@ int main()
 
 ## Todo list
 - Widgets
-  * [ ] text field
+  * [x] text field
   * [ ] text area
   * [ ] dropdown
   * [ ] check box
   * [ ] slider
   * [ ] add icons to buttons
+- Enhancement
+  * [ ] Make a good layout system
+- Multimedia
+  * [ ] interactions with audio
+  * [ ] video and images support
