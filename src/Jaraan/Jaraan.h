@@ -13,6 +13,8 @@
 static std::vector<sf::Text> labels;
 static bool isSelecting;
 static bool mousePressed;
+static bool returnPressed;
+static bool backSpacePressed;
 static sf::RectangleShape currentSelection;
 static std::string input;
 
@@ -55,9 +57,10 @@ public:
 	std::function<void()> func = nullptr;
 	sf::Color idleColor = sf::Color(100, 30, 36);
 	sf::Color labelColor = sf::Color(100, 30, 36);
-	InputField(int posx, int posy, int width, int fontSize, std::function<void()> callMethod);
+	InputField(int posx, int posy, int width, int fontSize, std::string placeholder);
 	void setLabelColor(int r, int g, int b);
-	void getText();
+	std::string getText();
+	void setText(std::string);
 	void destroy();
 };
 

@@ -1,4 +1,4 @@
-#include "Jaraan.h"
+﻿#include "Jaraan.h"
 
 	Window::Window(unsigned int width, unsigned int height, std::string windowTitle) {
 		sf::Image icon;
@@ -14,10 +14,9 @@
 		while (window.isOpen())
 		{
 			auto event = sf::Event{};
-
+			
 			for (event; window.pollEvent(event);)
 			{
-				input += event.text.unicode;
 
 				if (event.type == sf::Event::Closed)
 				{
@@ -25,18 +24,36 @@
 				}
 
 				if (event.type == sf::Event::MouseButtonPressed) {
-					
+
 					if (event.key.code == sf::Mouse::Left) {
 
 						if (isSelecting) {
 							mousePressed = true;
 						}
 					}
+				}
 
-					
+				if (event.type == sf::Event::KeyPressed) {
+
+					if (event.key.code == sf::Keyboard::Return) {
+
+						returnPressed = true;
+					}
+					else {
+						returnPressed = false;
+					}
+
+					if (event.key.code == sf::Keyboard::BackSpace) {
+
+						backSpacePressed = true;
+					}
+					else {
+						backSpacePressed = false;
+					}
 				}
 			}
 			
+
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
 			window.clear(backgroundColor);
@@ -72,7 +89,49 @@
 					}
 				}
 			}
-			
+
+			//Drawing the inputFields
+			for (int i = 0; i < inputFields.size(); i++) {
+
+				window.draw(inputFields[i].field);
+
+				inputFields[i].label.setColor(inputFields[i].labelColor);
+				inputFields[i].field.setFillColor(inputFields[i].idleColor);
+				if (inputFields[i].field.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+					isSelecting = true;
+					inputFields[i].field.setFillColor(buttons[0].hoverColor);
+					setCursor("text");
+
+					if (mousePressed) {
+						currentSelection = inputFields[i].field;
+						mousePressed = false;
+					}
+				}
+
+				//If the positions match, then it's the same object
+				if (inputFields[i].field.getPosition() == currentSelection.getPosition()) {
+
+					if (event.type == sf::Event::TextEntered) {
+						// Handle text input
+						if (event.text.unicode < 128) {
+
+							if (!backSpacePressed) {
+								input += static_cast<char>(event.text.unicode);
+							}
+							else {
+								if (inputFields[i].getText().size() > 0) {
+									input.pop_back();
+								}
+							}
+						}
+					}
+
+					inputFields[i].setText(input);
+				}
+
+			}
+
+			//Drawing all the labels
 			for (int i = 0; i < labels.size(); i++) {
 
 				sf::Font font;
@@ -86,34 +145,6 @@
 
 				window.draw(labels[i]);
 			}
-
-
-			for (int i = 0; i < inputFields.size(); i++) {
-
-				window.draw(inputFields[i].field);
-				window.draw(inputFields[i].label);
-				inputFields[i].label.setColor(inputFields[i].labelColor);
-				inputFields[i].field.setFillColor(inputFields[i].idleColor);
-				if (inputFields[i].field.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-					isSelecting = true;
-					//inputFields[i].field.setFillColor(inputFields[i].hoverColor);
-					setCursor("text");
-
-					if (mousePressed) {
-						currentSelection = inputFields[i].field;
-
-						//Clicking 
-						//If the positions match, then it's the same object
-						if (inputFields[i].field.getPosition() == currentSelection.getPosition()) {
-
-							inputFields[i].label.setString(input);
-
-						}
-						mousePressed = false;
-					}
-				}
-			}
-
 
 			window.display();
 		}
@@ -179,22 +210,16 @@
 	void Button::setButtonColor(int r, int g, int b) {
 
 		this->idleColor = sf::Color(r, g, b);
-
-
 	}
 
 	void Button::setButtonColorHover(int r, int g, int b) {
 
 		this->hoverColor = sf::Color(r, g, b);
-
-
 	}
 
 	void Button::setLabelColor(int r, int g, int b) {
 
 		this->label.setColor(sf::Color(r, g, b));
-
-
 	}
 
 
@@ -211,7 +236,6 @@
 	}
 
 
-
 	Label::Label(int posx, int posy, std::string label, unsigned int fontSize) {
 
 		// set the string to display
@@ -221,7 +245,7 @@
 		this->label.setCharacterSize(fontSize); // in pixels, not points!
 
 		// set the color
-		this->label.setFillColor(sf::Color(233, 220, 188));
+		this->label.setColor(sf::Color(233, 220, 188));
 		this->label.setPosition(posx * 32, 32 * posy);
 		labels.push_back(this->label);
 	}
@@ -238,26 +262,49 @@
 	}
 
 
-
-	InputField::InputField(int posx, int posy, int width, int fontSize, std::function<void()> callMethod) {
-
-		this->func = callMethod;
+	InputField::InputField(int posx, int posy, int width, int fontSize, std::string placeholder) {
 
 		sf::RectangleShape field(sf::Vector2f(123, 50));
-		this->label.setString("HOALASD");
+		field.setOutlineColor(sf::Color(10, 10, 10));
+		field.setOutlineThickness(2.5f);
+		this->label.setString(placeholder);
 		// set the character size
 		this->label.setCharacterSize(fontSize); // in pixels, not points!
 
 		int xSize = fontSize * width;
 		field.setSize(sf::Vector2f(xSize, fontSize * 2));
 		field.setPosition(posx * 32, field.getSize().y + 32 * posy);
-		this->label.setFillColor(sf::Color(233, 220, 188));
-		this->label.setPosition(field.getPosition().x + field.getSize().x / 4, field.getPosition().y + field.getSize().y / 4);
+		this->label.setColor(sf::Color(233, 220, 188));
+		this->label.setPosition(field.getPosition().x + 10, field.getPosition().y + field.getSize().y / 4);
 		this->field = field;
 		labels.push_back(this->label);
 		inputFields.push_back(*this);
 	}
 
-	
 
+	void InputField::setText(std::string label) {
 
+		for (int i = 0; i < labels.size(); i++) {
+
+			if (labels[i].getPosition() == this->label.getPosition()) {
+				labels[i].setString(label);
+				break;
+			}
+		}
+	}
+
+	std::string InputField::getText() {
+
+		std::string _string;
+
+		for (int i = 0; i < labels.size(); i++) {
+
+			if (labels[i].getPosition() == this->label.getPosition()) {
+				_string = labels[i].getString();
+				break;
+			}
+		}
+
+		return _string;
+
+	}
