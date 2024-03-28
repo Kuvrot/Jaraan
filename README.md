@@ -2,7 +2,7 @@
 
 # Jaraan
 #### GUI framework for C++.
-*Make C++ applications with a simple GUI with the least amount of code.* 
+*Make C++ applications with a simple modern GUI with the least amount of code.* 
 
 ## Demo
 
@@ -39,6 +39,45 @@ int main()
 }
 
 ```
+## How to use:
+If using git, clone the repo with 
+```
+git clone https://github.com/Kuvrot/Jaraan.git
+```
+1. Configure and build your project. Most popular IDEs support CMake projects with very little effort on your part.
+    - [Visual Studio](https://docs.microsoft.com/en-us/cpp/build/cmake-projects-in-visual-studio?view=msvc-170) (recommended)
+    - [VS Code](https://code.visualstudio.com) via the [CMake extension](https://code.visualstudio.com/docs/cpp/cmake-linux)
+    - [CLion](https://www.jetbrains.com/clion/features/cmake-support.html)
+    - [Qt Creator](https://doc.qt.io/qtcreator/creator-project-cmake.html)
+
+    Using CMake from the command line is straightforward as well.
+
+    For a single-configuration generator (typically the case on Linux and macOS):
+    ```
+    cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+    cmake --build build
+    ```
+
+    For a multi-configuration generator (typically the case on Windows):
+    ```
+    cmake -S . -B build
+    cmake --build build --config Release
+    ```
+
+If using Linux, install SFML's dependencies using your system package manager. On Ubuntu and other Debian-based distributions you can use the following commands:
+```
+    sudo apt update
+    sudo apt install \
+        libxrandr-dev \
+        libxcursor-dev \
+        libudev-dev \
+        libfreetype-dev \
+        libopenal-dev \
+        libflac-dev \
+        libvorbis-dev \
+        libgl1-mesa-dev \
+        libegl1-mesa-dev
+```
 
 ## Todo list
 - Widgets
@@ -49,7 +88,7 @@ int main()
   * [ ] slider
   * [ ] add icons to buttons
 - Enhancement
-  * [ ] Make a good layout system
+  * [ ] Good layout system
 - Multimedia
   * [ ] interactions with audio
   * [ ] video and images support
