@@ -116,11 +116,19 @@
 						if (event.text.unicode < 128) {
 
 							if (!backSpacePressed) {
-								input += static_cast<char>(event.text.unicode);
+
+								if (inputFields[i].getText().size() < 17) {
+
+									input += static_cast<char>(event.text.unicode);
+
+								}
 							}
 							else {
+
 								if (inputFields[i].getText().size() > 0) {
+
 									input.pop_back();
+
 								}
 							}
 						}
@@ -128,7 +136,6 @@
 
 					inputFields[i].setText(input);
 				}
-
 			}
 
 			//Drawing all the labels
@@ -306,5 +313,4 @@
 		}
 
 		return _string;
-
 	}
