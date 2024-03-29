@@ -81,6 +81,8 @@ If using Linux, install SFML's dependencies using your system package manager. O
 
 ## Todo list
 - Widgets
+  * [x] labels
+  * [x] buttons
   * [x] text field
   * [ ] text area
   * [ ] dropdown
