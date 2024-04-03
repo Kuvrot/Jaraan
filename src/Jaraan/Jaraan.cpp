@@ -82,7 +82,6 @@
 						//If the positions match, then it's the same object
 						if (buttons[i].button.getPosition() == currentSelection.getPosition()) {
 							buttons[i].click();
-							break;
 						}
 						
 						mousePressed = false;
@@ -312,5 +311,5 @@
 			}
 		}
 
-		return _string;
+		return _string; 
 	}
