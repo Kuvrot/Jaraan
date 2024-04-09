@@ -137,6 +137,32 @@
 				}
 			}
 
+			//Draw widgets
+			for (int i = 0; i < checkBoxes.size(); i++) {
+
+				window.draw(checkBoxes[i].box);
+				checkBoxes[i].check.setColor(checkBoxes[i].labelColor);
+				checkBoxes[i].box.setFillColor(checkBoxes[i].idleColor);
+				if (checkBoxes[i].box.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+					isSelecting = true;
+					checkBoxes[i].box.setFillColor(checkBoxes[i].hoverColor);
+					setCursor("hand");
+
+					if (mousePressed) {
+						currentSelection = checkBoxes[i].box;
+
+						//Clicking 
+						//If the positions match, then it's the same object
+						if (checkBoxes[i].box.getPosition() == currentSelection.getPosition()) {
+							checkBoxes[i].toggle();
+						}
+
+						mousePressed = false;
+					}
+				}
+			}
+
+
 			//Drawing all the labels
 			for (int i = 0; i < labels.size(); i++) {
 
@@ -313,3 +339,74 @@
 
 		return _string; 
 	}
+
+
+	CheckBox::CheckBox(int posx, int posy, bool defaultValue, int size) {
+
+		sf::RectangleShape field(sf::Vector2f(123, 50));
+		field.setOutlineColor(sf::Color(10, 10, 10));
+		field.setOutlineThickness(2.5f);
+		this->value = defaultValue;
+		if (defaultValue) {
+			this->check.setString(" × ");
+		}
+		else {
+			this->check.setString(" ");
+		}
+		// set the character size
+		this->check.setCharacterSize(size * 2); // in pixels, not points!
+		
+		field.setSize(sf::Vector2f(size * 2, size * 2));
+		field.setPosition(posx * 32, field.getSize().y + 32 * posy);
+		this->check.setColor(sf::Color(233, 220, 188));
+		this->check.setPosition(field.getPosition().x - 2, field.getPosition().y - 4);
+		this->box = field;
+		labels.push_back(this->check);
+		checkBoxes.push_back(*this);
+
+	}
+
+	
+
+	void CheckBox::toggle() {
+
+		bool curValue = this->value;
+
+		for (int i = 0; i < checkBoxes.size(); i++) {
+
+			if (checkBoxes[i].box.getPosition() == this->box.getPosition()) {
+				
+				if (checkBoxes[i].value) {
+
+					checkBoxes[i].value = false;
+					curValue = false;
+
+				}
+				else {
+					checkBoxes[i].value = true;
+					curValue = true;
+				}
+
+				break;
+			}
+		}
+
+		for (int i = 0; i < labels.size(); i++) {
+		
+			if (labels[i].getPosition() == this->check.getPosition()) {
+
+				if (curValue) {
+
+					labels[i].setString(" × ");
+				}
+				else {
+					labels[i].setString(" ");
+				}
+
+				break;
+			}
+		
+		}
+
+	}
+

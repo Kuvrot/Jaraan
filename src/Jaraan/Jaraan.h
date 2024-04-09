@@ -73,5 +73,22 @@ public:
 	void setText(std::string label);
 };
 
+class CheckBox {
+
+public:
+	sf::Text check;
+	sf::RectangleShape box;
+	bool value;
+	sf::Color idleColor = sf::Color(100, 30, 36);
+	sf::Color hoverColor = sf::Color(43, 13, 15);
+	sf::Color labelColor = sf::Color(100, 30, 36);
+	CheckBox(int posx , int posy , bool defaultValue, int size);
+	void toggle();
+	bool getValue();
+
+
+};
+
+static std::vector<CheckBox> checkBoxes;
 
 #endif // !
