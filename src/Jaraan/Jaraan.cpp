@@ -98,7 +98,7 @@
 				inputFields[i].field.setFillColor(inputFields[i].idleColor);
 				if (inputFields[i].field.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
 					isSelecting = true;
-					inputFields[i].field.setFillColor(buttons[0].hoverColor);
+					inputFields[i].field.setFillColor(inputFields[0].hoverColor);
 					setCursor("text");
 
 					if (mousePressed) {

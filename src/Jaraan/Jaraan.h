@@ -56,6 +56,7 @@ public:
 	sf::Text label;
 	std::function<void()> func = nullptr;
 	sf::Color idleColor = sf::Color(100, 30, 36);
+	sf::Color hoverColor = sf::Color(43, 13, 15);
 	sf::Color labelColor = sf::Color(100, 30, 36);
 	InputField(int posx, int posy, int width, int fontSize, std::string placeholder);
 	void setLabelColor(int r, int g, int b);
