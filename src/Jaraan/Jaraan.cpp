@@ -103,6 +103,7 @@
 
 					if (mousePressed) {
 						currentSelection = inputFields[i].field;
+						input.clear();
 						mousePressed = false;
 					}
 				}
@@ -140,7 +141,7 @@
 			//Draw widgets
 			for (int i = 0; i < checkBoxes.size(); i++) {
 
-				window.draw(checkBoxes[i].box);
+				window.draw(checkBoxes[i].box); 
 				checkBoxes[i].check.setColor(checkBoxes[i].labelColor);
 				checkBoxes[i].box.setFillColor(checkBoxes[i].idleColor);
 				if (checkBoxes[i].box.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
@@ -162,16 +163,15 @@
 				}
 			}
 
+			sf::Font font;
+
+			if (!font.loadFromFile("arial.ttf"))
+			{
+				throw("Font not founded");
+			}
 
 			//Drawing all the labels
 			for (int i = 0; i < labels.size(); i++) {
-
-				sf::Font font;
-
-				if (!font.loadFromFile("arial.ttf"))
-				{
-					throw("Font not founded");
-				}
 
 				labels[i].setFont(font);
 
@@ -220,7 +220,7 @@
 		
 		int xSize = label.size() * this->label.getCharacterSize();
 		button.setSize(sf::Vector2f(xSize, this->label.getCharacterSize() * 2));
-		button.setPosition(posx * 32 , button.getSize().y + 32 * posy);
+		button.setPosition(posx, posy);
 
 	
 		this->button = button;
@@ -278,7 +278,7 @@
 
 		// set the color
 		this->label.setColor(sf::Color(233, 220, 188));
-		this->label.setPosition(posx * 32, 32 * posy);
+		this->label.setPosition(posx, posy);
 		labels.push_back(this->label);
 	}
 
@@ -305,7 +305,7 @@
 
 		int xSize = fontSize * width;
 		field.setSize(sf::Vector2f(xSize, fontSize * 2));
-		field.setPosition(posx * 32, field.getSize().y + 32 * posy);
+		field.setPosition(posx, posy);
 		this->label.setColor(sf::Color(233, 220, 188));
 		this->label.setPosition(field.getPosition().x + 10, field.getPosition().y + field.getSize().y / 4);
 		this->field = field;
@@ -357,7 +357,7 @@
 		this->check.setCharacterSize(size * 2); // in pixels, not points!
 		
 		field.setSize(sf::Vector2f(size * 2, size * 2));
-		field.setPosition(posx * 32, field.getSize().y + 32 * posy);
+		field.setPosition(posx, posy);
 		this->check.setColor(sf::Color(233, 220, 188));
 		this->check.setPosition(field.getPosition().x - 2, field.getPosition().y - 4);
 		this->box = field;
