@@ -7,6 +7,15 @@
 		this->window.setIcon(icon.getSize().x , icon.getSize().y , icon.getPixelsPtr());
 		window.setFramerateLimit(60);
 		setCursor("arrow");
+		sf::Font font;
+
+		if (!this->font.loadFromFile("arial.ttf"))
+		{
+			throw("Font not founded");
+		}
+
+		setup = false;
+
 	}
 
 	void Window::Update() {
@@ -163,22 +172,19 @@
 				}
 			}
 
-			sf::Font font;
-
-			if (!font.loadFromFile("arial.ttf"))
-			{
-				throw("Font not founded");
-			}
-
 			//Drawing all the labels
 			for (int i = 0; i < labels.size(); i++) {
 
-				labels[i].setFont(font);
+				if (!setup) {
+					labels[i].setFont(this->font);
+				}
 
 				window.draw(labels[i]);
 			}
 
 			window.display();
+
+			setup = true;
 		}
 
 	}

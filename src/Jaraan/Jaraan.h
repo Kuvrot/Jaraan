@@ -20,9 +20,12 @@ static std::string input;
 
 class Window {
 
+	bool setup;
+
 public:
 	sf::RenderWindow window;
 	sf::Color backgroundColor = sf::Color(25, 25, 25);
+	sf::Font font;
 	Window(unsigned int width, unsigned int height, std::string windowTitle);
 	void Update();
 	void setCursor(std::string cursor);
