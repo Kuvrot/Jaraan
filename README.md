@@ -79,6 +79,11 @@ If using Linux, install SFML's dependencies using your system package manager. O
         libegl1-mesa-dev
 ```
 
+### Setup the font
+- Download a font 
+  * Download the [Arial font](https://www.freebestfonts.com/download?fn=257)
+- After the cmake build is done, go to your Jaraan repo and then go to `out > build > x64_Debug > bin` and put the arial.ttf file inside the bin folder. 
+
 ## Todo list
 - Widgets
   * [x] labels
