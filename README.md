@@ -91,7 +91,7 @@ If using Linux, install SFML's dependencies using your system package manager. O
   * [x] text field
   * [ ] text area
   * [ ] dropdown
-  * [ ] check box
+  * [x] check box
   * [ ] slider
   * [ ] add icons to buttons
 - Enhancement
